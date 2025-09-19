@@ -11,10 +11,14 @@ export function JobList() {
   
   const { data: jobs, isLoading, error } = api.job.getAll.useQuery(filters);
 
+  const handleFiltersChange = (newFilters: JobFilter) => {
+    setFilters(newFilters);
+  };
+
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <JobFilters />
+        <JobFilters filters={filters} onFiltersChange={handleFiltersChange} />
         <div className="grid gap-6">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="bg-white border border-gray-200 rounded-lg p-6 animate-pulse">
@@ -33,7 +37,7 @@ export function JobList() {
   if (error) {
     return (
       <div className="space-y-6">
-        <JobFilters />
+        <JobFilters filters={filters} onFiltersChange={handleFiltersChange} />
         <div className="text-center py-12">
           <p className="text-red-600">Error loading jobs: {error.message}</p>
         </div>
@@ -43,7 +47,7 @@ export function JobList() {
 
   return (
     <div className="space-y-6">
-      <JobFilters />
+      <JobFilters filters={filters} onFiltersChange={handleFiltersChange} />
       
       {jobs && jobs.length > 0 ? (
         <div className="grid gap-6">

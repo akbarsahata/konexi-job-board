@@ -11,7 +11,7 @@ export const jobRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { db } = ctx;
       
-      let whereConditions = [];
+      const whereConditions = [];
       
       if (input.location) {
         whereConditions.push(ilike(jobs.location, `%${input.location}%`));

@@ -1,5 +1,6 @@
 import { Header } from '@/components/Header';
 import { JobList } from '@/components/JobList';
+import { ClientOnly } from '@/components/ClientOnly';
 
 export default function Home() {
   return (
@@ -16,7 +17,9 @@ export default function Home() {
           </p>
         </div>
         
-        <JobList />
+        <ClientOnly fallback={<div className="text-center py-8">Loading jobs...</div>}>
+          <JobList />
+        </ClientOnly>
       </main>
     </div>
   );

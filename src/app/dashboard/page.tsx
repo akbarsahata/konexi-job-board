@@ -162,7 +162,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="bg-white p-8 rounded-lg border text-center">
-              <p className="text-gray-500 text-lg mb-4">You haven't posted any jobs yet.</p>
+              <p className="text-gray-500 text-lg mb-4">You have not posted any jobs yet.</p>
               <Link
                 href="/post-job"
                 className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"

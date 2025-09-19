@@ -75,7 +75,7 @@ export default function JobDetailPage() {
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Job Not Found</h1>
-            <p className="text-gray-600 mb-4">The job you're looking for doesn't exist.</p>
+            <p className="text-gray-600 mb-4">The job you are looking for does not exist.</p>
             <Link href="/" className="text-blue-600 hover:underline">
               ← Back to Jobs
             </Link>

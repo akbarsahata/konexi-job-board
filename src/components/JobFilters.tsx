@@ -1,22 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { api } from '@/lib/providers';
 import { JobFilter } from '@/server/schema';
 
-export function JobFilters() {
-  const [filters, setFilters] = useState<JobFilter>({});
-  const utils = api.useUtils();
+interface JobFiltersProps {
+  filters: JobFilter;
+  onFiltersChange: (filters: JobFilter) => void;
+}
 
+export function JobFilters({ filters, onFiltersChange }: JobFiltersProps) {
   const handleFilterChange = (key: keyof JobFilter, value: string) => {
     const newFilters = {
       ...filters,
       [key]: value || undefined,
     };
-    setFilters(newFilters);
-    
-    // Invalidate and refetch jobs with new filters
-    utils.job.getAll.invalidate();
+    onFiltersChange(newFilters);
   };
 
   return (
@@ -33,6 +30,7 @@ export function JobFilters() {
             id="search"
             placeholder="Job title, company, or keywords"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={filters.search || ''}
             onChange={(e) => handleFilterChange('search', e.target.value)}
           />
         </div>
@@ -46,6 +44,7 @@ export function JobFilters() {
             id="location"
             placeholder="City, state, or remote"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={filters.location || ''}
             onChange={(e) => handleFilterChange('location', e.target.value)}
           />
         </div>
@@ -57,6 +56,7 @@ export function JobFilters() {
           <select
             id="type"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={filters.type || ''}
             onChange={(e) => handleFilterChange('type', e.target.value)}
           >
             <option value="">All Types</option>
