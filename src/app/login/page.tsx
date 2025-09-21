@@ -19,7 +19,6 @@ function LoginForm() {
   const signInMutation = trpc.auth.signIn.useMutation({
     onSuccess: () => {
       router.push(redirectTo);
-      router.refresh();
     },
     onError: (error) => {
       setError(error.message);
