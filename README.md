@@ -1,5 +1,7 @@
 # Mini Job Board Application
 
+[![Test Suite](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml/badge.svg)](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml)
+
 A full-stack job board web application built with Next.js, Supabase, and tRPC. This application allows companies to post job openings and enables users to browse and apply for positions.
 
 ## 🚀 Live Demo
@@ -196,6 +198,19 @@ Test files are located in `src/test/` and include:
 - `jobs.test.ts` - Comprehensive tests for all job query functions
 - `setup.ts` - Test environment configuration
 - `test-utils.ts` - Mock database utilities and fixtures
+
+### Continuous Integration
+The project includes a **GitHub Actions** workflow that automatically:
+
+- **Runs on every push** to the `master` branch and pull requests
+- **Tests across Node.js versions** - 18.x and 20.x for compatibility
+- **Comprehensive checks** including:
+  - Unit tests (27 test cases)
+  - ESLint code quality checks
+  - TypeScript type checking
+  - Production build verification
+
+The CI pipeline ensures code quality and prevents regressions. View the workflow at `.github/workflows/test.yml`.
 
 ### Key Files
 - `src/lib/schema.ts` - Database schema definitions
