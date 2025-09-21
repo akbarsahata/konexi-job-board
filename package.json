@@ -1,5 +1,5 @@
 {
-  "name": "examples-next-edge-runtime",
+  "name": "konexi-job-board",
   "private": true,
   "scripts": {
     "dev": "next dev",
