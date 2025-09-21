@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { trpc } from "../../utils/trpc";
+import { useAuth } from "../../components/AuthProvider";
 
 function LoginForm() {
   const router = useRouter();
+  const { refreshSession } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +17,11 @@ function LoginForm() {
   const [error, setError] = useState("");
 
   const signInMutation = trpc.auth.signIn.useMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
+      // Refresh the auth session to update the context immediately
+      await refreshSession();
+      // Wait a moment for the state to propagate
+      await new Promise(resolve => setTimeout(resolve, 100));
       router.push("/");
     },
     onError: (error) => {
