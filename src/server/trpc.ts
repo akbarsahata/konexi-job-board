@@ -8,8 +8,22 @@
  * @see https://trpc.io/docs/v11/procedures
  */
 import { initTRPC } from '@trpc/server';
+import { db, type Db } from '../lib/db';
 
-const t = initTRPC.create();
+/**
+ * Create context for tRPC
+ */
+export function createContext() {
+  return {
+    db,
+  };
+}
+
+export type Context = {
+  db: Db;
+};
+
+const t = initTRPC.context<Context>().create();
 
 /**
  * Unprotected procedure
