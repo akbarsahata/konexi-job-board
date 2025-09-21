@@ -54,7 +54,7 @@ export default function JobDetailPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Job Not Found</h1>
           <p className="text-gray-600 mb-4">The job you're looking for doesn't exist or has been removed.</p>
           <Link 
-            href="/jobs" 
+            href="/" 
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -81,7 +81,7 @@ export default function JobDetailPage() {
         {/* Header */}
         <div className="mb-6">
           <Link 
-            href="/jobs" 
+            href="/" 
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
           >
             <ArrowLeft className="h-4 w-4" />

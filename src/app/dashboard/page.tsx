@@ -93,7 +93,7 @@ export default function DashboardPage() {
                 Post a Job
               </Link>
               <Link 
-                href="/jobs"
+                href="/"
                 className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
               >
                 <Briefcase className="w-4 h-4" />
