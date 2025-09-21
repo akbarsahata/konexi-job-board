@@ -3,7 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save, Briefcase, Building2, MapPin, FileText, Tag } from 'lucide-react';
+import {
+  ArrowLeft,
+  Save,
+  Briefcase,
+  Building2,
+  MapPin,
+  FileText,
+  Tag,
+} from 'lucide-react';
 import { trpc } from '../../../../utils/trpc';
 import { useAuth } from '../../../../components/AuthProvider';
 
@@ -12,7 +20,7 @@ export default function EditJobPage() {
   const router = useRouter();
   const { user } = useAuth();
   const jobId = params.id as string;
-  
+
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -20,17 +28,21 @@ export default function EditJobPage() {
     location: '',
     type: '' as 'Full-Time' | 'Part-Time' | 'Contract' | '',
   });
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isInitialized, setIsInitialized] = useState(false);
 
-  const { data: job, isLoading: jobLoading, error: jobError } = trpc.jobs.getById.useQuery({ id: jobId });
+  const {
+    data: job,
+    isLoading: jobLoading,
+    error: jobError,
+  } = trpc.jobs.getById.useQuery({ id: jobId });
 
   const updateJobMutation = trpc.jobs.update.useMutation({
     onSuccess: () => {
       router.push(`/jobs/${jobId}`);
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error updating job:', error);
       setErrors({ general: error.message });
     },
@@ -65,8 +77,10 @@ export default function EditJobPage() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.title.trim()) newErrors.title = 'Job title is required';
-    if (!formData.company.trim()) newErrors.company = 'Company name is required';
-    if (!formData.description.trim()) newErrors.description = 'Job description is required';
+    if (!formData.company.trim())
+      newErrors.company = 'Company name is required';
+    if (!formData.description.trim())
+      newErrors.description = 'Job description is required';
     if (!formData.location.trim()) newErrors.location = 'Location is required';
     if (!formData.type) newErrors.type = 'Job type is required';
 
@@ -76,7 +90,7 @@ export default function EditJobPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     const updateData = {
@@ -85,7 +99,9 @@ export default function EditJobPage() {
       company: formData.company,
       description: formData.description,
       location: formData.location,
-      ...(formData.type && { type: formData.type as 'Full-Time' | 'Part-Time' | 'Contract' }),
+      ...(formData.type && {
+        type: formData.type as 'Full-Time' | 'Part-Time' | 'Contract',
+      }),
     };
 
     updateJobMutation.mutate(updateData);
@@ -106,10 +122,14 @@ export default function EditJobPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Job Not Found</h1>
-          <p className="text-gray-600 mb-4">The job you're trying to edit doesn't exist or has been removed.</p>
-          <Link 
-            href="/dashboard" 
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Job Not Found
+          </h1>
+          <p className="text-gray-600 mb-4">
+            The job you're trying to edit doesn't exist or has been removed.
+          </p>
+          <Link
+            href="/dashboard"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -124,10 +144,14 @@ export default function EditJobPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h1>
-          <p className="text-gray-600 mb-4">You don't have permission to edit this job posting.</p>
-          <Link 
-            href="/dashboard" 
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Access Denied
+          </h1>
+          <p className="text-gray-600 mb-4">
+            You don't have permission to edit this job posting.
+          </p>
+          <Link
+            href="/dashboard"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -143,15 +167,17 @@ export default function EditJobPage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
-            href={`/jobs/${jobId}`} 
+          <Link
+            href={`/jobs/${jobId}`}
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Job Details
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Edit Job Posting</h1>
-          <p className="text-gray-600 mt-2">Update the details for your job posting</p>
+          <p className="text-gray-600 mt-2">
+            Update the details for your job posting
+          </p>
         </div>
 
         {/* Form Card */}
@@ -166,7 +192,10 @@ export default function EditJobPage() {
 
             {/* Job Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Title *
               </label>
               <div className="relative">
@@ -174,9 +203,11 @@ export default function EditJobPage() {
                   id="title"
                   type="text"
                   value={formData.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  onChange={e => handleInputChange('title', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                    errors.title ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                    errors.title
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-gray-200'
                   }`}
                   placeholder="e.g. Senior Frontend Developer"
                 />
@@ -184,12 +215,17 @@ export default function EditJobPage() {
                   <Briefcase className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
+              {errors.title && (
+                <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+              )}
             </div>
 
             {/* Company */}
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="company"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Company Name *
               </label>
               <div className="relative">
@@ -197,9 +233,11 @@ export default function EditJobPage() {
                   id="company"
                   type="text"
                   value={formData.company}
-                  onChange={(e) => handleInputChange('company', e.target.value)}
+                  onChange={e => handleInputChange('company', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                    errors.company ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                    errors.company
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-gray-200'
                   }`}
                   placeholder="e.g. Tech Company Inc."
                 />
@@ -207,12 +245,17 @@ export default function EditJobPage() {
                   <Building2 className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.company && <p className="mt-1 text-sm text-red-600">{errors.company}</p>}
+              {errors.company && (
+                <p className="mt-1 text-sm text-red-600">{errors.company}</p>
+              )}
             </div>
 
             {/* Location */}
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Location *
               </label>
               <div className="relative">
@@ -220,9 +263,11 @@ export default function EditJobPage() {
                   id="location"
                   type="text"
                   value={formData.location}
-                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  onChange={e => handleInputChange('location', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                    errors.location ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                    errors.location
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-gray-200'
                   }`}
                   placeholder="e.g. San Francisco, CA or Remote"
                 />
@@ -230,19 +275,24 @@ export default function EditJobPage() {
                   <MapPin className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
+              {errors.location && (
+                <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+              )}
             </div>
 
             {/* Job Type */}
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="type"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Type *
               </label>
               <div className="relative">
                 <select
                   id="type"
                   value={formData.type}
-                  onChange={(e) => handleInputChange('type', e.target.value)}
+                  onChange={e => handleInputChange('type', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none bg-white ${
                     errors.type ? 'border-red-300 bg-red-50' : 'border-gray-200'
                   }`}
@@ -256,12 +306,17 @@ export default function EditJobPage() {
                   <Tag className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
+              {errors.type && (
+                <p className="mt-1 text-sm text-red-600">{errors.type}</p>
+              )}
             </div>
 
             {/* Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Description *
               </label>
               <div className="relative">
@@ -269,9 +324,13 @@ export default function EditJobPage() {
                   id="description"
                   rows={8}
                   value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  onChange={e =>
+                    handleInputChange('description', e.target.value)
+                  }
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical ${
-                    errors.description ? 'border-red-300 bg-red-50' : 'border-gray-200'
+                    errors.description
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-gray-200'
                   }`}
                   placeholder="Describe the role, responsibilities, requirements, and any other relevant details..."
                 />
@@ -279,7 +338,11 @@ export default function EditJobPage() {
                   <FileText className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+              {errors.description && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.description}
+                </p>
+              )}
             </div>
 
             {/* Form Actions */}
@@ -291,7 +354,7 @@ export default function EditJobPage() {
                 <ArrowLeft className="h-4 w-4" />
                 Cancel
               </Link>
-              
+
               <button
                 type="submit"
                 disabled={updateJobMutation.isPending}

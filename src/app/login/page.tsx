@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { Eye, EyeOff, Lock, LogIn, Mail } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
-import { trpc } from "../../utils/trpc";
-import { useAuth } from "../../components/AuthProvider";
+import { Eye, EyeOff, Lock, LogIn, Mail } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { trpc } from '../../utils/trpc';
+import { useAuth } from '../../components/AuthProvider';
 
 function LoginForm() {
   const router = useRouter();
   const { refreshSession } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const signInMutation = trpc.auth.signIn.useMutation({
     onSuccess: async () => {
@@ -22,19 +22,19 @@ function LoginForm() {
       await refreshSession();
       // Wait a moment for the state to propagate
       await new Promise(resolve => setTimeout(resolve, 100));
-      router.push("/");
+      router.push('/');
     },
-    onError: (error) => {
+    onError: error => {
       setError(error.message);
     },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError('Please fill in all fields');
       return;
     }
 
@@ -56,7 +56,7 @@ function LoginForm() {
             Sign in to your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Or{" "}
+            Or{' '}
             <Link
               href="/signup"
               className="font-medium text-blue-600 hover:text-blue-500"
@@ -85,7 +85,7 @@ function LoginForm() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your email"
                 />
@@ -107,11 +107,11 @@ function LoginForm() {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your password"
                 />
@@ -151,7 +151,7 @@ function LoginForm() {
             ) : (
               <LogIn className="h-5 w-5" />
             )}
-            {signInMutation.isPending ? "Signing in..." : "Sign in"}
+            {signInMutation.isPending ? 'Signing in...' : 'Sign in'}
           </button>
 
           <div className="text-center">

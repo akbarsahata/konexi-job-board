@@ -3,15 +3,15 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  ArrowLeft, 
-  Building, 
-  MapPin, 
-  Clock, 
+import {
+  ArrowLeft,
+  Building,
+  MapPin,
+  Clock,
   Calendar,
   Edit,
   Trash2,
-  Briefcase
+  Briefcase,
 } from 'lucide-react';
 import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
@@ -24,7 +24,11 @@ export default function JobDetailPage() {
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const { data: job, isLoading, error } = trpc.jobs.getById.useQuery({ id: jobId });
+  const {
+    data: job,
+    isLoading,
+    error,
+  } = trpc.jobs.getById.useQuery({ id: jobId });
 
   const deleteJobMutation = trpc.jobs.delete.useMutation({
     onSuccess: () => {
@@ -51,10 +55,14 @@ export default function JobDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Job Not Found</h1>
-          <p className="text-gray-600 mb-4">The job you're looking for doesn't exist or has been removed.</p>
-          <Link 
-            href="/" 
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Job Not Found
+          </h1>
+          <p className="text-gray-600 mb-4">
+            The job you're looking for doesn't exist or has been removed.
+          </p>
+          <Link
+            href="/"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -66,12 +74,12 @@ export default function JobDetailPage() {
   }
 
   const isOwner = user?.id === job.userId;
-  
+
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -80,8 +88,8 @@ export default function JobDetailPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-6">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-4"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -95,7 +103,9 @@ export default function JobDetailPage() {
           <div className="px-6 py-6 border-b border-gray-200">
             <div className="flex justify-between items-start">
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{job.title}</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {job.title}
+                </h1>
                 <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-4">
                   <div className="flex items-center gap-2">
                     <Building className="h-5 w-5" />
@@ -107,14 +117,18 @@ export default function JobDetailPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-5 w-5" />
-                    <span className="capitalize">{job.type.replace('-', ' ')}</span>
+                    <span className="capitalize">
+                      {job.type.replace('-', ' ')}
+                    </span>
                   </div>
                 </div>
-                
+
                 {/* Job Type Badge */}
                 <div className="flex items-center gap-2 text-lg font-semibold text-blue-600 mb-4">
                   <Briefcase className="h-5 w-5" />
-                  <span className="capitalize">{job.type.replace('-', ' ')} Position</span>
+                  <span className="capitalize">
+                    {job.type.replace('-', ' ')} Position
+                  </span>
                 </div>
               </div>
 
@@ -153,7 +167,9 @@ export default function JobDetailPage() {
               <div className="lg:col-span-2 space-y-6">
                 {/* Job Description */}
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Job Description</h2>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                    Job Description
+                  </h2>
                   <div className="prose prose-gray max-w-none">
                     <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
                       {job.description}
@@ -166,7 +182,9 @@ export default function JobDetailPage() {
               <div className="space-y-6">
                 {/* Job Details */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Job Details</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Job Details
+                  </h3>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -174,7 +192,9 @@ export default function JobDetailPage() {
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Job Type</p>
-                        <p className="font-medium capitalize">{job.type.replace('-', ' ')}</p>
+                        <p className="font-medium capitalize">
+                          {job.type.replace('-', ' ')}
+                        </p>
                       </div>
                     </div>
 
@@ -184,7 +204,9 @@ export default function JobDetailPage() {
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Posted On</p>
-                        <p className="font-medium">{formatDate(job.createdAt)}</p>
+                        <p className="font-medium">
+                          {formatDate(job.createdAt)}
+                        </p>
                       </div>
                     </div>
 
@@ -202,13 +224,17 @@ export default function JobDetailPage() {
 
                 {/* Company Info */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">About Company</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    About Company
+                  </h3>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
                       <Building className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900">{job.company}</h4>
+                      <h4 className="font-semibold text-gray-900">
+                        {job.company}
+                      </h4>
                       <p className="text-sm text-gray-500">Employer</p>
                     </div>
                   </div>
@@ -217,9 +243,12 @@ export default function JobDetailPage() {
                 {/* Application Notice for non-owners */}
                 {!isOwner && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                    <h3 className="text-lg font-semibold text-blue-900 mb-2">Interested in this role?</h3>
+                    <h3 className="text-lg font-semibold text-blue-900 mb-2">
+                      Interested in this role?
+                    </h3>
                     <p className="text-blue-700 text-sm mb-4">
-                      Contact {job.company} directly to learn more about this opportunity and how to apply.
+                      Contact {job.company} directly to learn more about this
+                      opportunity and how to apply.
                     </p>
                   </div>
                 )}
@@ -233,9 +262,12 @@ export default function JobDetailPage() {
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Job Posting</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Delete Job Posting
+            </h3>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this job posting? This action cannot be undone.
+              Are you sure you want to delete this job posting? This action
+              cannot be undone.
             </p>
             <div className="flex gap-3 justify-end">
               <button

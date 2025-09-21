@@ -3,20 +3,20 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Plus, 
-  Briefcase, 
-  Users, 
-  TrendingUp, 
-  Edit, 
-  Trash2, 
+import {
+  Plus,
+  Briefcase,
+  Users,
+  TrendingUp,
+  Edit,
+  Trash2,
   Eye,
   Calendar,
   MapPin,
   Building2,
   MoreVertical,
   LogOut,
-  User
+  User,
 } from 'lucide-react';
 import { trpc } from '../../utils/trpc';
 import { useAuth } from '../../components/AuthProvider';
@@ -34,7 +34,12 @@ export default function DashboardPage() {
   }, [user, loading, router]);
 
   // Fetch user's jobs
-  const { data: myJobs, isLoading, error, refetch } = trpc.jobs.getMyJobs.useQuery();
+  const {
+    data: myJobs,
+    isLoading,
+    error,
+    refetch,
+  } = trpc.jobs.getMyJobs.useQuery();
 
   // Delete job mutation
   const deleteJobMutation = trpc.jobs.delete.useMutation({
@@ -42,13 +47,18 @@ export default function DashboardPage() {
       refetch();
       setActiveDropdown(null);
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error deleting job:', error);
     },
   });
 
   const handleDeleteJob = (jobId: string) => {
-    if (typeof window !== 'undefined' && window.confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+    if (
+      typeof window !== 'undefined' &&
+      window.confirm(
+        'Are you sure you want to delete this job? This action cannot be undone.'
+      )
+    ) {
       deleteJobMutation.mutate({ id: jobId });
     }
   };
@@ -98,20 +108,23 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <Link
+                href="/"
+                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+              >
                 JobBoard
               </Link>
               <p className="text-gray-600 mt-1">Dashboard</p>
             </div>
             <div className="flex items-center gap-3">
-              <Link 
+              <Link
                 href="/jobs/new"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
               >
                 <Plus className="w-4 h-4" />
                 Post a Job
               </Link>
-              <Link 
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
               >
@@ -173,7 +186,10 @@ export default function DashboardPage() {
                   {myJobs?.filter(job => {
                     const jobDate = new Date(job.createdAt);
                     const now = new Date();
-                    return jobDate.getMonth() === now.getMonth() && jobDate.getFullYear() === now.getFullYear();
+                    return (
+                      jobDate.getMonth() === now.getMonth() &&
+                      jobDate.getFullYear() === now.getFullYear()
+                    );
                   }).length || 0}
                 </p>
               </div>
@@ -199,8 +215,10 @@ export default function DashboardPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100">
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-gray-900">Your Job Postings</h2>
-              <Link 
+              <h2 className="text-lg font-semibold text-gray-900">
+                Your Job Postings
+              </h2>
+              <Link
                 href="/jobs/new"
                 className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium text-sm"
               >
@@ -222,18 +240,23 @@ export default function DashboardPage() {
             </div>
           ) : error ? (
             <div className="p-6 text-center">
-              <p className="text-red-600">Error loading your jobs. Please try again.</p>
+              <p className="text-red-600">
+                Error loading your jobs. Please try again.
+              </p>
             </div>
           ) : !myJobs || myJobs.length === 0 ? (
             <div className="p-12 text-center">
               <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                 <Briefcase className="w-12 h-12 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs posted yet</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                No jobs posted yet
+              </h3>
               <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                Start building your talent pipeline by posting your first job opening.
+                Start building your talent pipeline by posting your first job
+                opening.
               </p>
-              <Link 
+              <Link
                 href="/jobs/new"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-blue-700 transition-all duration-200"
               >
@@ -264,11 +287,13 @@ export default function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {myJobs.map((job) => (
+                  {myJobs.map(job => (
                     <tr key={job.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{job.title}</div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {job.title}
+                          </div>
                           <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
                             <Building2 className="w-4 h-4" />
                             {job.company}
@@ -276,7 +301,9 @@ export default function DashboardPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getJobTypeColor(job.type)}`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium border ${getJobTypeColor(job.type)}`}
+                        >
                           {job.type}
                         </span>
                       </td>
@@ -295,12 +322,16 @@ export default function DashboardPage() {
                       <td className="px-6 py-4 text-right">
                         <div className="relative">
                           <button
-                            onClick={() => setActiveDropdown(activeDropdown === job.id ? null : job.id)}
+                            onClick={() =>
+                              setActiveDropdown(
+                                activeDropdown === job.id ? null : job.id
+                              )
+                            }
                             className="inline-flex items-center gap-1 text-gray-400 hover:text-gray-600 transition-colors"
                           >
                             <MoreVertical className="w-4 h-4" />
                           </button>
-                          
+
                           {activeDropdown === job.id && (
                             <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                               <div className="py-1">

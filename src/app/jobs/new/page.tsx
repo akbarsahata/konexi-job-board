@@ -3,21 +3,29 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Save, Briefcase, Building2, MapPin, FileText, Tag } from 'lucide-react';
+import {
+  ArrowLeft,
+  Save,
+  Briefcase,
+  Building2,
+  MapPin,
+  FileText,
+  Tag,
+} from 'lucide-react';
 import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
 
 export default function NewJobPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
-  
+
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
-  
+
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -25,14 +33,14 @@ export default function NewJobPage() {
     location: '',
     type: '' as 'Full-Time' | 'Part-Time' | 'Contract' | '',
   });
-  
+
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const createJobMutation = trpc.jobs.create.useMutation({
     onSuccess: () => {
       router.push('/dashboard');
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error creating job:', error);
       setErrors({ general: error.message });
     },
@@ -50,8 +58,10 @@ export default function NewJobPage() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.title.trim()) newErrors.title = 'Job title is required';
-    if (!formData.company.trim()) newErrors.company = 'Company name is required';
-    if (!formData.description.trim()) newErrors.description = 'Job description is required';
+    if (!formData.company.trim())
+      newErrors.company = 'Company name is required';
+    if (!formData.description.trim())
+      newErrors.description = 'Job description is required';
     if (!formData.location.trim()) newErrors.location = 'Location is required';
     if (!formData.type) newErrors.type = 'Job type is required';
 
@@ -69,7 +79,7 @@ export default function NewJobPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     createJobMutation.mutate({
@@ -104,7 +114,7 @@ export default function NewJobPage() {
       <header className="bg-white/90 backdrop-blur-sm shadow-sm border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 py-6">
-            <Link 
+            <Link
               href="/dashboard"
               className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
@@ -112,8 +122,12 @@ export default function NewJobPage() {
               Back to Dashboard
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Post a New Job</h1>
-              <p className="text-gray-600 mt-1">Fill out the details to create your job posting</p>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Post a New Job
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Fill out the details to create your job posting
+              </p>
             </div>
           </div>
         </div>
@@ -136,7 +150,10 @@ export default function NewJobPage() {
 
             {/* Job Title */}
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Title *
               </label>
               <div className="relative">
@@ -144,7 +161,7 @@ export default function NewJobPage() {
                   type="text"
                   id="title"
                   value={formData.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  onChange={e => handleInputChange('title', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                     errors.title ? 'border-red-300' : 'border-gray-200'
                   }`}
@@ -154,12 +171,17 @@ export default function NewJobPage() {
                   <Briefcase className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title}</p>}
+              {errors.title && (
+                <p className="mt-1 text-sm text-red-600">{errors.title}</p>
+              )}
             </div>
 
             {/* Company Name */}
             <div>
-              <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="company"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Company Name *
               </label>
               <div className="relative">
@@ -167,7 +189,7 @@ export default function NewJobPage() {
                   type="text"
                   id="company"
                   value={formData.company}
-                  onChange={(e) => handleInputChange('company', e.target.value)}
+                  onChange={e => handleInputChange('company', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                     errors.company ? 'border-red-300' : 'border-gray-200'
                   }`}
@@ -177,12 +199,17 @@ export default function NewJobPage() {
                   <Building2 className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.company && <p className="mt-1 text-sm text-red-600">{errors.company}</p>}
+              {errors.company && (
+                <p className="mt-1 text-sm text-red-600">{errors.company}</p>
+              )}
             </div>
 
             {/* Location */}
             <div>
-              <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Location *
               </label>
               <div className="relative">
@@ -190,7 +217,7 @@ export default function NewJobPage() {
                   type="text"
                   id="location"
                   value={formData.location}
-                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  onChange={e => handleInputChange('location', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                     errors.location ? 'border-red-300' : 'border-gray-200'
                   }`}
@@ -200,19 +227,24 @@ export default function NewJobPage() {
                   <MapPin className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
+              {errors.location && (
+                <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+              )}
             </div>
 
             {/* Job Type */}
             <div>
-              <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="type"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Type *
               </label>
               <div className="relative">
                 <select
                   id="type"
                   value={formData.type}
-                  onChange={(e) => handleInputChange('type', e.target.value)}
+                  onChange={e => handleInputChange('type', e.target.value)}
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none bg-white ${
                     errors.type ? 'border-red-300' : 'border-gray-200'
                   }`}
@@ -226,12 +258,17 @@ export default function NewJobPage() {
                   <Tag className="h-5 w-5 text-gray-400" />
                 </div>
               </div>
-              {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
+              {errors.type && (
+                <p className="mt-1 text-sm text-red-600">{errors.type}</p>
+              )}
             </div>
 
             {/* Job Description */}
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Job Description *
               </label>
               <div className="relative">
@@ -239,7 +276,9 @@ export default function NewJobPage() {
                   id="description"
                   rows={8}
                   value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  onChange={e =>
+                    handleInputChange('description', e.target.value)
+                  }
                   className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${
                     errors.description ? 'border-red-300' : 'border-gray-200'
                   }`}
@@ -255,7 +294,9 @@ export default function NewJobPage() {
                 ) : (
                   <p className="text-sm text-gray-500">Minimum 50 characters</p>
                 )}
-                <p className="text-sm text-gray-500">{formData.description.length} characters</p>
+                <p className="text-sm text-gray-500">
+                  {formData.description.length} characters
+                </p>
               </div>
             </div>
 

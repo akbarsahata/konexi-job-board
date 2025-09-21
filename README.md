@@ -188,10 +188,32 @@ pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm start        # Start production server
 pnpm lint         # Run ESLint
+pnpm lint:fix     # Run ESLint with auto-fix
+pnpm format       # Format all files with Prettier
+pnpm format:check # Check if files are formatted
 pnpm test         # Run test suite
 pnpm test:watch   # Run tests in watch mode
 pnpm type-check   # Run TypeScript checks
 ```
+
+### Code Quality & Formatting
+
+The project enforces consistent code style and quality through automated tools:
+
+- **Prettier** - Automatic code formatting with consistent style rules
+- **ESLint** - Code quality checks and error detection
+- **Husky + lint-staged** - Pre-commit hooks that automatically:
+  - Format code with Prettier
+  - Fix ESLint issues
+  - Run the full test suite
+  - Ensure type safety
+
+**Pre-commit automation ensures:**
+
+- All committed code is properly formatted
+- Code style is consistent across the project
+- No linting errors make it into the repository
+- Tests pass before any commit
 
 ### Testing
 

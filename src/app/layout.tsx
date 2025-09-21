@@ -18,9 +18,7 @@ export default function RootLayout({
       <body className="bg-gray-50 min-h-screen">
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              {children}
-            </AuthProvider>
+            <AuthProvider>{children}</AuthProvider>
           </QueryClientProvider>
         </trpc.Provider>
       </body>

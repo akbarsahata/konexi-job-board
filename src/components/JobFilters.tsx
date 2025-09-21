@@ -13,16 +13,10 @@ interface JobFiltersProps {
 
 export function JobFilters({ onFiltersChange }: JobFiltersProps) {
   const [location, setLocation] = useState('');
-  const [type, setType] = useState<'Full-Time' | 'Part-Time' | 'Contract' | ''>('');
+  const [type, setType] = useState<'Full-Time' | 'Part-Time' | 'Contract' | ''>(
+    ''
+  );
   const [search, setSearch] = useState('');
-
-  const handleFiltersChange = () => {
-    onFiltersChange({
-      location: location || undefined,
-      type: type || undefined,
-      search: search || undefined,
-    });
-  };
 
   const handleLocationChange = (value: string) => {
     setLocation(value);
@@ -67,11 +61,14 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
           </button>
         )}
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Search */}
         <div>
-          <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="search"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Search
           </label>
           <div className="relative">
@@ -79,7 +76,7 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
               type="text"
               id="search"
               value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
+              onChange={e => handleSearchChange(e.target.value)}
               placeholder="Search jobs, companies..."
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
             />
@@ -91,7 +88,10 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
 
         {/* Location */}
         <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Location
           </label>
           <div className="relative">
@@ -99,7 +99,7 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
               type="text"
               id="location"
               value={location}
-              onChange={(e) => handleLocationChange(e.target.value)}
+              onChange={e => handleLocationChange(e.target.value)}
               placeholder="Enter location..."
               className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
             />
@@ -111,15 +111,22 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
 
         {/* Job Type */}
         <div>
-          <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="type"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Job Type
           </label>
           <div className="relative">
             <select
               id="type"
               value={type}
-              onChange={(e) => {
-                const selectedType = e.target.value as 'Full-Time' | 'Part-Time' | 'Contract' | '';
+              onChange={e => {
+                const selectedType = e.target.value as
+                  | 'Full-Time'
+                  | 'Part-Time'
+                  | 'Contract'
+                  | '';
                 setType(selectedType);
                 setTimeout(() => {
                   onFiltersChange({

@@ -17,8 +17,10 @@ import { type User } from '@supabase/supabase-js';
  */
 export async function createContext() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return {
     db,
     user,
@@ -42,16 +44,16 @@ export const publicProcedure = t.procedure;
 /**
  * Protected procedure - requires authentication
  **/
-export const protectedProcedure = t.procedure.use(async (opts) => {
+export const protectedProcedure = t.procedure.use(async opts => {
   const { ctx } = opts;
-  
+
   if (!ctx.user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
       message: 'You must be logged in to perform this action',
     });
   }
-  
+
   return opts.next({
     ctx: {
       ...ctx,

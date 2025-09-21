@@ -1,14 +1,14 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Client, Pool } from "pg";
-import * as schema from "./schema";
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Client, Pool } from 'pg';
+import * as schema from './schema';
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set");
+  throw new Error('DATABASE_URL is not set');
 }
 
 let connection: Pool | Client;
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   connection = new Pool({
     connectionString: process.env.DATABASE_URL,
   });
@@ -22,8 +22,8 @@ if (process.env.NODE_ENV === "production") {
       connectionString: process.env.DATABASE_URL,
     });
 
-    (async () => await client.connect())().catch((err) => {
-      console.error("Error connecting to the database", err);
+    (async () => await client.connect())().catch(err => {
+      console.error('Error connecting to the database', err);
     });
 
     globalConnection.connection = client;

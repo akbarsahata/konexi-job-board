@@ -1,18 +1,17 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   createJob,
+  deleteJob,
   getAllJobs,
   getJobById,
   getJobsByUserId,
   updateJob,
-  deleteJob,
 } from '../queries/jobs';
 import {
-  mockJob,
-  mockNewJob,
-  mockJobs,
   createMockDb,
-  mockQueryResult,
+  mockJob,
+  mockJobs,
+  mockNewJob,
   resetAllMocks,
 } from './test-utils';
 
@@ -40,6 +39,7 @@ vi.mock('drizzle-orm', () => ({
 }));
 
 describe('Jobs Queries', () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let mockDb: any;
 
   beforeEach(() => {
@@ -54,7 +54,12 @@ describe('Jobs Queries', () => {
   describe('createJob', () => {
     it('should create a new job successfully', async () => {
       // Arrange
-      const expectedJob = { ...mockNewJob, id: 'new-job-id', createdAt: '2024-01-15T10:00:00Z', updatedAt: '2024-01-15T10:00:00Z' };
+      const expectedJob = {
+        ...mockNewJob,
+        id: 'new-job-id',
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-15T10:00:00Z',
+      };
       mockDb.returning.mockResolvedValueOnce([expectedJob]);
 
       // Act
@@ -73,7 +78,9 @@ describe('Jobs Queries', () => {
       mockDb.returning.mockRejectedValueOnce(dbError);
 
       // Act & Assert
-      await expect(createJob({ db: mockDb, job: mockNewJob })).rejects.toThrow('Database connection failed');
+      await expect(createJob({ db: mockDb, job: mockNewJob })).rejects.toThrow(
+        'Database connection failed'
+      );
     });
   });
 
@@ -107,13 +114,15 @@ describe('Jobs Queries', () => {
 
     it('should filter jobs by location', async () => {
       // Arrange
-      const filteredJobs = mockJobs.filter(job => job.location.includes('San Francisco'));
+      const filteredJobs = mockJobs.filter(job =>
+        job.location.includes('San Francisco')
+      );
       mockDb.orderBy.mockResolvedValueOnce(filteredJobs);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { location: 'San Francisco' } 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: { location: 'San Francisco' },
       });
 
       // Assert
@@ -129,9 +138,9 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockResolvedValueOnce(filteredJobs);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { type: 'Full-Time' } 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: { type: 'Full-Time' },
       });
 
       // Assert
@@ -143,17 +152,18 @@ describe('Jobs Queries', () => {
 
     it('should filter jobs by search term', async () => {
       // Arrange
-      const filteredJobs = mockJobs.filter(job => 
-        job.title.includes('Engineer') || 
-        job.company.includes('Engineer') || 
-        job.description.includes('Engineer')
+      const filteredJobs = mockJobs.filter(
+        job =>
+          job.title.includes('Engineer') ||
+          job.company.includes('Engineer') ||
+          job.description.includes('Engineer')
       );
       mockDb.orderBy.mockResolvedValueOnce(filteredJobs);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { search: 'Engineer' } 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: { search: 'Engineer' },
       });
 
       // Assert
@@ -169,13 +179,13 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockResolvedValueOnce(filteredJobs);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: {
           location: 'San Francisco',
           type: 'Full-Time',
-          search: 'Software'
-        } 
+          search: 'Software',
+        },
       });
 
       // Assert
@@ -190,9 +200,9 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockResolvedValueOnce([]);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { location: 'Nonexistent City' } 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: { location: 'Nonexistent City' },
       });
 
       // Assert
@@ -233,18 +243,25 @@ describe('Jobs Queries', () => {
       mockDb.where.mockRejectedValueOnce(dbError);
 
       // Act & Assert
-      await expect(getJobById({ db: mockDb, id: 'test-id' })).rejects.toThrow('Database query failed');
+      await expect(getJobById({ db: mockDb, id: 'test-id' })).rejects.toThrow(
+        'Database query failed'
+      );
     });
   });
 
   describe('getJobsByUserId', () => {
     it('should return jobs for a specific user', async () => {
       // Arrange
-      const userJobs = mockJobs.filter(job => job.userId === 'test-user-id-456');
+      const userJobs = mockJobs.filter(
+        job => job.userId === 'test-user-id-456'
+      );
       mockDb.orderBy.mockResolvedValueOnce(userJobs);
 
       // Act
-      const result = await getJobsByUserId({ db: mockDb, userId: 'test-user-id-456' });
+      const result = await getJobsByUserId({
+        db: mockDb,
+        userId: 'test-user-id-456',
+      });
 
       // Assert
       expect(mockDb.select).toHaveBeenCalledTimes(1);
@@ -258,7 +275,10 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockResolvedValueOnce([]);
 
       // Act
-      const result = await getJobsByUserId({ db: mockDb, userId: 'user-with-no-jobs' });
+      const result = await getJobsByUserId({
+        db: mockDb,
+        userId: 'user-with-no-jobs',
+      });
 
       // Assert
       expect(result).toEqual([]);
@@ -266,28 +286,40 @@ describe('Jobs Queries', () => {
   });
 
   describe('updateJob', () => {
-    const updates = { title: 'Updated Job Title', description: 'Updated description' };
+    const updates = {
+      title: 'Updated Job Title',
+      description: 'Updated description',
+    };
     const userId = 'test-user-id-456';
     const jobId = 'test-job-id-123';
 
     it('should update a job successfully when user owns the job', async () => {
       // Arrange
-      const updatedJob = { ...mockJob, ...updates, updatedAt: expect.any(String) };
-      
+      const updatedJob = {
+        ...mockJob,
+        ...updates,
+        updatedAt: expect.any(String),
+      };
+
       // Mock getJobById call
       mockDb.where.mockResolvedValueOnce([mockJob]);
       // Mock update call
       mockDb.returning.mockResolvedValueOnce([updatedJob]);
 
       // Act
-      const result = await updateJob({ db: mockDb, id: jobId, updates, userId });
+      const result = await updateJob({
+        db: mockDb,
+        id: jobId,
+        updates,
+        userId,
+      });
 
       // Assert
       expect(mockDb.select).toHaveBeenCalledTimes(1); // getJobById call
       expect(mockDb.update).toHaveBeenCalledTimes(1);
       expect(mockDb.set).toHaveBeenCalledWith({
         ...updates,
-        updatedAt: expect.any(String)
+        updatedAt: expect.any(String),
       });
       expect(mockDb.returning).toHaveBeenCalledTimes(1);
       expect(result).toEqual(updatedJob);
@@ -298,7 +330,12 @@ describe('Jobs Queries', () => {
       mockDb.where.mockResolvedValueOnce([]); // Job not found
 
       // Act
-      const result = await updateJob({ db: mockDb, id: 'nonexistent-id', updates, userId });
+      const result = await updateJob({
+        db: mockDb,
+        id: 'nonexistent-id',
+        updates,
+        userId,
+      });
 
       // Assert
       expect(mockDb.select).toHaveBeenCalledTimes(1); // getJobById call
@@ -312,7 +349,12 @@ describe('Jobs Queries', () => {
       mockDb.where.mockResolvedValueOnce([jobOwnedByOtherUser]);
 
       // Act
-      const result = await updateJob({ db: mockDb, id: jobId, updates, userId });
+      const result = await updateJob({
+        db: mockDb,
+        id: jobId,
+        updates,
+        userId,
+      });
 
       // Assert
       expect(mockDb.select).toHaveBeenCalledTimes(1); // getJobById call
@@ -323,18 +365,27 @@ describe('Jobs Queries', () => {
     it('should handle partial updates', async () => {
       // Arrange
       const partialUpdates = { title: 'Only Title Updated' };
-      const updatedJob = { ...mockJob, ...partialUpdates, updatedAt: expect.any(String) };
-      
+      const updatedJob = {
+        ...mockJob,
+        ...partialUpdates,
+        updatedAt: expect.any(String),
+      };
+
       mockDb.where.mockResolvedValueOnce([mockJob]);
       mockDb.returning.mockResolvedValueOnce([updatedJob]);
 
       // Act
-      const result = await updateJob({ db: mockDb, id: jobId, updates: partialUpdates, userId });
+      const result = await updateJob({
+        db: mockDb,
+        id: jobId,
+        updates: partialUpdates,
+        userId,
+      });
 
       // Assert
       expect(mockDb.set).toHaveBeenCalledWith({
         ...partialUpdates,
-        updatedAt: expect.any(String)
+        updatedAt: expect.any(String),
       });
       expect(result).toEqual(updatedJob);
     });
@@ -347,7 +398,7 @@ describe('Jobs Queries', () => {
     it('should delete a job successfully when user owns the job', async () => {
       // Arrange
       mockDb.where.mockResolvedValueOnce([mockJob]); // getJobById call
-      
+
       // Mock delete operation with rowCount
       const deleteResult = { rowCount: 1 };
       mockDb.delete.mockReturnThis();
@@ -367,7 +418,11 @@ describe('Jobs Queries', () => {
       mockDb.where.mockResolvedValueOnce([]); // Job not found
 
       // Act
-      const result = await deleteJob({ db: mockDb, id: 'nonexistent-id', userId });
+      const result = await deleteJob({
+        db: mockDb,
+        id: 'nonexistent-id',
+        userId,
+      });
 
       // Assert
       expect(mockDb.select).toHaveBeenCalledTimes(1); // getJobById call
@@ -392,7 +447,7 @@ describe('Jobs Queries', () => {
     it('should return false when delete operation affects no rows', async () => {
       // Arrange
       mockDb.where.mockResolvedValueOnce([mockJob]); // getJobById call
-      
+
       // Mock delete operation with no affected rows
       const deleteResult = { rowCount: 0 };
       mockDb.delete.mockReturnThis();
@@ -410,7 +465,7 @@ describe('Jobs Queries', () => {
     it('should handle undefined rowCount', async () => {
       // Arrange
       mockDb.where.mockResolvedValueOnce([mockJob]); // getJobById call
-      
+
       // Mock delete operation with undefined rowCount
       const deleteResult = { rowCount: undefined };
       mockDb.delete.mockReturnThis();
@@ -441,7 +496,10 @@ describe('Jobs Queries', () => {
       mockDb.where.mockResolvedValueOnce([]);
 
       // Act & Assert
-      await expect(getJobById({ db: mockDb, id: null as any })).resolves.toBeNull();
+      await expect(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        getJobById({ db: mockDb, id: null as any })
+      ).resolves.toBeNull();
     });
 
     it('should handle database timeout errors', async () => {
@@ -450,7 +508,9 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockRejectedValueOnce(timeoutError);
 
       // Act & Assert
-      await expect(getAllJobs({ db: mockDb })).rejects.toThrow('Database timeout');
+      await expect(getAllJobs({ db: mockDb })).rejects.toThrow(
+        'Database timeout'
+      );
     });
 
     it('should handle SQL injection attempts safely', async () => {
@@ -459,9 +519,9 @@ describe('Jobs Queries', () => {
       mockDb.orderBy.mockResolvedValueOnce([]);
 
       // Act
-      const result = await getAllJobs({ 
-        db: mockDb, 
-        filters: { search: maliciousInput } 
+      const result = await getAllJobs({
+        db: mockDb,
+        filters: { search: maliciousInput },
       });
 
       // Assert

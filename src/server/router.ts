@@ -9,7 +9,7 @@ export const appRouter = router({
     .input(
       z.object({
         name: z.string().nullish(),
-      }),
+      })
     )
     .query(({ input }) => {
       return {
@@ -24,13 +24,12 @@ export const appRouter = router({
   jobs: jobRouter,
 
   // Health check endpoint
-  health: publicProcedure
-    .query(() => {
-      return {
-        status: 'ok',
-        timestamp: new Date().toISOString(),
-      };
-    }),
+  health: publicProcedure.query(() => {
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    };
+  }),
 });
 
 // Export type definition of API

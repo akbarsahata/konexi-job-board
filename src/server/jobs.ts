@@ -59,23 +59,20 @@ export const jobRouter = router({
     }),
 
   // Get a single job by ID (public)
-  getById: publicProcedure
-    .input(jobIdSchema)
-    .query(async ({ input, ctx }) => {
-      return await jobQueries.getJobById({
-        db: ctx.db,
-        id: input.id,
-      });
-    }),
+  getById: publicProcedure.input(jobIdSchema).query(async ({ input, ctx }) => {
+    return await jobQueries.getJobById({
+      db: ctx.db,
+      id: input.id,
+    });
+  }),
 
   // Get jobs by current user (authenticated user's dashboard)
-  getMyJobs: protectedProcedure
-    .query(async ({ ctx }) => {
-      return await jobQueries.getJobsByUserId({
-        db: ctx.db,
-        userId: ctx.user.id,
-      });
-    }),
+  getMyJobs: protectedProcedure.query(async ({ ctx }) => {
+    return await jobQueries.getJobsByUserId({
+      db: ctx.db,
+      userId: ctx.user.id,
+    });
+  }),
 
   // Update a job (authenticated users only, own jobs only)
   update: protectedProcedure

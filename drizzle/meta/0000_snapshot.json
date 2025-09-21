@@ -79,11 +79,7 @@
   "enums": {
     "public.job_type": {
       "name": "job_type",
-      "values": [
-        "Full-Time",
-        "Part-Time",
-        "Contract"
-      ],
+      "values": ["Full-Time", "Part-Time", "Contract"],
       "schema": "public"
     }
   },

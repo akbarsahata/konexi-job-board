@@ -8,6 +8,7 @@
 ## Environment Setup
 
 1. Copy the environment template:
+
    ```bash
    cp .env.example .env.local
    ```
@@ -29,11 +30,13 @@
 ## Initial Setup
 
 1. Pull existing schema from Supabase:
+
    ```bash
    pnpm db:pull
    ```
 
 2. Generate initial migration:
+
    ```bash
    pnpm db:generate
    ```
@@ -46,6 +49,7 @@
 ## Schema
 
 The database includes:
+
 - `users` table (extends Supabase auth.users)
 - `jobs` table with job postings
 - `job_type` enum for job types (full-time, part-time, contract)

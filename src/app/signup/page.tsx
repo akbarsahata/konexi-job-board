@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { CheckCircle, Eye, EyeOff, Lock, Mail, UserPlus } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-import { trpc } from "../../utils/trpc";
+import { CheckCircle, Eye, EyeOff, Lock, Mail, UserPlus } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { trpc } from '../../utils/trpc';
 
 export default function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   const signUpMutation = trpc.auth.signUp.useMutation({
     onSuccess: () => {
       setSuccess(true);
-      setError("");
+      setError('');
     },
-    onError: (error) => {
+    onError: error => {
       setError(error.message);
       setSuccess(false);
     },
@@ -27,21 +27,21 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setSuccess(false);
 
     if (!email || !password || !confirmPassword) {
-      setError("Please fill in all fields");
+      setError('Please fill in all fields');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
       return;
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError('Password must be at least 6 characters');
       return;
     }
 
@@ -93,7 +93,7 @@ export default function SignupPage() {
             Create your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Or{" "}
+            Or{' '}
             <Link
               href="/login"
               className="font-medium text-blue-600 hover:text-blue-500"
@@ -122,7 +122,7 @@ export default function SignupPage() {
                   autoComplete="email"
                   required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your email"
                 />
@@ -144,11 +144,11 @@ export default function SignupPage() {
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your password"
                 />
@@ -181,11 +181,11 @@ export default function SignupPage() {
                 <input
                   id="confirm-password"
                   name="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={e => setConfirmPassword(e.target.value)}
                   className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Confirm your password"
                 />
@@ -226,16 +226,16 @@ export default function SignupPage() {
               <UserPlus className="h-5 w-5" />
             )}
             {signUpMutation.isPending
-              ? "Creating account..."
-              : "Create account"}
+              ? 'Creating account...'
+              : 'Create account'}
           </button>
 
           <p className="text-xs text-gray-500 text-center">
-            By creating an account, you agree to our{" "}
+            By creating an account, you agree to our{' '}
             <Link href="/terms" className="text-blue-600 hover:text-blue-500">
               Terms of Service
-            </Link>{" "}
-            and{" "}
+            </Link>{' '}
+            and{' '}
             <Link href="/privacy" className="text-blue-600 hover:text-blue-500">
               Privacy Policy
             </Link>

@@ -2,9 +2,9 @@ name: Test Suite
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -15,38 +15,38 @@ jobs:
         node-version: [18.x, 20.x]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
-    - name: Setup Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-    - name: Install dependencies
-      run: pnpm install --no-frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
-    - name: Run tests
-      run: pnpm test
+      - name: Run tests
+        run: pnpm test
 
-    - name: Run linting (non-blocking)
-      run: pnpm lint || echo "Linting completed with warnings"
-      continue-on-error: true
+      - name: Run linting (non-blocking)
+        run: pnpm lint || echo "Linting completed with warnings"
+        continue-on-error: true
 
-    - name: Type check
-      run: pnpm run type-check
+      - name: Type check
+        run: pnpm run type-check
 
-    - name: Build project
-      run: pnpm build
-      env:
-        # Mock environment variables for build process
-        NEXT_PUBLIC_SUPABASE_URL: "https://placeholder.supabase.co"
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: "placeholder-anon-key"
-        SUPABASE_SERVICE_ROLE_KEY: "placeholder-service-role-key"
-        DATABASE_URL: "postgresql://placeholder:placeholder@localhost:5432/placeholder"
+      - name: Build project
+        run: pnpm build
+        env:
+          # Mock environment variables for build process
+          NEXT_PUBLIC_SUPABASE_URL: 'https://placeholder.supabase.co'
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: 'placeholder-anon-key'
+          SUPABASE_SERVICE_ROLE_KEY: 'placeholder-service-role-key'
+          DATABASE_URL: 'postgresql://placeholder:placeholder@localhost:5432/placeholder'

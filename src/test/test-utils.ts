@@ -7,7 +7,8 @@ export const mockJob: Job = {
   id: 'test-job-id-123',
   title: 'Senior Software Engineer',
   company: 'Tech Corp',
-  description: 'We are looking for a senior software engineer to join our team...',
+  description:
+    'We are looking for a senior software engineer to join our team...',
   location: 'San Francisco, CA',
   type: 'Full-Time',
   userId: 'test-user-id-456',

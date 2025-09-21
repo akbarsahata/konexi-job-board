@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { MapPin, Clock, Building2, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Building2, Calendar, ArrowRight } from 'lucide-react';
 import type { Job } from '../lib/schema';
 
 interface JobCardProps {
@@ -35,10 +35,7 @@ export function JobCard({ job }: JobCardProps) {
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1 min-w-0">
-          <Link 
-            href={`/jobs/${job.id}`}
-            className="block"
-          >
+          <Link href={`/jobs/${job.id}`} className="block">
             <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
               {job.title}
             </h3>
@@ -48,11 +45,13 @@ export function JobCard({ job }: JobCardProps) {
             <p className="text-gray-600 font-medium">{job.company}</p>
           </div>
         </div>
-        <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getJobTypeColor(job.type)} whitespace-nowrap ml-3`}>
+        <span
+          className={`px-3 py-1 rounded-full text-xs font-semibold border ${getJobTypeColor(job.type)} whitespace-nowrap ml-3`}
+        >
           {job.type}
         </span>
       </div>
-      
+
       {/* Metadata */}
       <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
         <div className="flex items-center gap-1.5">
@@ -64,18 +63,17 @@ export function JobCard({ job }: JobCardProps) {
           <span>{formatDate(job.createdAt)}</span>
         </div>
       </div>
-      
+
       {/* Description */}
       <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
-        {job.description.length > 120 
-          ? `${job.description.substring(0, 120)}...` 
-          : job.description
-        }
+        {job.description.length > 120
+          ? `${job.description.substring(0, 120)}...`
+          : job.description}
       </p>
-      
+
       {/* Footer */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-50">
-        <Link 
+        <Link
           href={`/jobs/${job.id}`}
           className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium text-sm group-hover:gap-3 transition-all duration-200"
         >

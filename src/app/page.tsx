@@ -1,7 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, AlertCircle, Briefcase, Plus, LayoutDashboard, LogOut, User } from 'lucide-react';
+import {
+  Search,
+  AlertCircle,
+  Plus,
+  LayoutDashboard,
+  LogOut,
+  User,
+} from 'lucide-react';
 import { trpc } from '../utils/trpc';
 import { useAuth } from '../components/AuthProvider';
 import { JobCard } from '../components/JobCard';
@@ -9,7 +16,7 @@ import { JobFilters } from '../components/JobFilters';
 import Link from 'next/link';
 
 export default function HomePage() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, signOut } = useAuth();
   const [filters, setFilters] = useState<{
     location?: string;
     type?: 'Full-Time' | 'Part-Time' | 'Contract';
@@ -25,7 +32,10 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>
-              <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <Link
+                href="/"
+                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+              >
                 JobBoard
               </Link>
               <p className="text-gray-600 mt-1">Find your next opportunity</p>
@@ -33,14 +43,14 @@ export default function HomePage() {
             <div className="flex items-center gap-3">
               {user ? (
                 <>
-                  <Link 
+                  <Link
                     href="/jobs/new"
                     className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
                   >
                     <Plus className="w-4 h-4" />
                     Post a Job
                   </Link>
-                  <Link 
+                  <Link
                     href="/dashboard"
                     className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
                   >
@@ -61,13 +71,13 @@ export default function HomePage() {
                 </>
               ) : (
                 <>
-                  <Link 
+                  <Link
                     href="/login"
                     className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
                   >
                     Sign In
                   </Link>
-                  <Link 
+                  <Link
                     href="/signup"
                     className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
                   >
@@ -98,10 +108,9 @@ export default function HomePage() {
         {!isLoading && jobs && (
           <div className="mb-6">
             <p className="text-gray-600 text-lg">
-              {jobs.length === 0 
+              {jobs.length === 0
                 ? 'No jobs found matching your criteria'
-                : `${jobs.length} job${jobs.length === 1 ? '' : 's'} found`
-              }
+                : `${jobs.length} job${jobs.length === 1 ? '' : 's'} found`}
             </p>
           </div>
         )}
@@ -110,7 +119,10 @@ export default function HomePage() {
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <div
+                key={i}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
+              >
                 <div className="animate-pulse">
                   <div className="h-6 bg-gray-200 rounded-lg mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded-lg mb-2"></div>
@@ -130,9 +142,14 @@ export default function HomePage() {
                 <AlertCircle className="h-6 w-6 text-red-500" />
               </div>
               <div className="ml-3">
-                <h3 className="text-lg font-medium text-red-800">Error loading jobs</h3>
+                <h3 className="text-lg font-medium text-red-800">
+                  Error loading jobs
+                </h3>
                 <div className="mt-2 text-red-700">
-                  <p>There was an error loading the job listings. Please try again later.</p>
+                  <p>
+                    There was an error loading the job listings. Please try
+                    again later.
+                  </p>
                 </div>
               </div>
             </div>
@@ -144,7 +161,7 @@ export default function HomePage() {
           <>
             {jobs.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {jobs.map((job) => (
+                {jobs.map(job => (
                   <JobCard key={job.id} job={job} />
                 ))}
               </div>
@@ -153,11 +170,14 @@ export default function HomePage() {
                 <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                   <Search className="w-12 h-12 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs found</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  No jobs found
+                </h3>
                 <p className="text-gray-500 mb-6 max-w-md mx-auto">
-                  Try adjusting your search criteria or check back later for new opportunities.
+                  Try adjusting your search criteria or check back later for new
+                  opportunities.
                 </p>
-                <Link 
+                <Link
                   href="/jobs/new"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-blue-700 transition-all duration-200"
                 >
