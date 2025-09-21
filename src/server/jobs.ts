@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { router, publicProcedure } from './trpc';
+import { router, publicProcedure, protectedProcedure } from './trpc';
 import * as jobQueries from '../queries/jobs';
 
 // Input validation schemas
@@ -9,7 +9,6 @@ const createJobSchema = z.object({
   description: z.string().min(1, 'Description is required'),
   location: z.string().min(1, 'Location is required'),
   type: z.enum(['Full-Time', 'Part-Time', 'Contract']),
-  userId: z.string().uuid(), // In real app, this would come from auth context
 });
 
 const updateJobSchema = z.object({
@@ -19,7 +18,6 @@ const updateJobSchema = z.object({
   description: z.string().min(1).optional(),
   location: z.string().min(1).optional(),
   type: z.enum(['Full-Time', 'Part-Time', 'Contract']).optional(),
-  userId: z.string().uuid(), // In real app, this would come from auth context
 });
 
 const jobFiltersSchema = z.object({
@@ -32,23 +30,21 @@ const jobIdSchema = z.object({
   id: z.string().uuid(),
 });
 
-const userJobsSchema = z.object({
-  userId: z.string().uuid(), // In real app, this would come from auth context
-});
-
 const deleteJobSchema = z.object({
   id: z.string().uuid(),
-  userId: z.string().uuid(), // In real app, this would come from auth context
 });
 
 export const jobRouter = router({
   // Create a new job (authenticated users only)
-  create: publicProcedure
+  create: protectedProcedure
     .input(createJobSchema)
     .mutation(async ({ input, ctx }) => {
       return await jobQueries.createJob({
         db: ctx.db,
-        job: input,
+        job: {
+          ...input,
+          userId: ctx.user.id,
+        },
       });
     }),
 
@@ -72,37 +68,36 @@ export const jobRouter = router({
       });
     }),
 
-  // Get jobs by user ID (authenticated user's dashboard)
-  getByUserId: publicProcedure
-    .input(userJobsSchema)
-    .query(async ({ input, ctx }) => {
+  // Get jobs by current user (authenticated user's dashboard)
+  getMyJobs: protectedProcedure
+    .query(async ({ ctx }) => {
       return await jobQueries.getJobsByUserId({
         db: ctx.db,
-        userId: input.userId,
+        userId: ctx.user.id,
       });
     }),
 
   // Update a job (authenticated users only, own jobs only)
-  update: publicProcedure
+  update: protectedProcedure
     .input(updateJobSchema)
     .mutation(async ({ input, ctx }) => {
-      const { id, userId, ...updates } = input;
+      const { id, ...updates } = input;
       return await jobQueries.updateJob({
         db: ctx.db,
         id,
         updates,
-        userId,
+        userId: ctx.user.id,
       });
     }),
 
   // Delete a job (authenticated users only, own jobs only)
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(deleteJobSchema)
     .mutation(async ({ input, ctx }) => {
       return await jobQueries.deleteJob({
         db: ctx.db,
         id: input.id,
-        userId: input.userId,
+        userId: ctx.user.id,
       });
     }),
 });

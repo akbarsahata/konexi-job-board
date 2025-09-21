@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { trpc, trpcClient } from '../utils/trpc';
+import { AuthProvider } from '../components/AuthProvider';
 import './globals.css';
 
 export default function RootLayout({
@@ -17,7 +18,9 @@ export default function RootLayout({
       <body className="bg-gray-50 min-h-screen">
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </QueryClientProvider>
         </trpc.Provider>
       </body>

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { router, publicProcedure } from './trpc';
 import { jobRouter } from './jobs';
+import { authRouter } from './auth';
 
 export const appRouter = router({
   // Legacy greeting endpoint (keep for compatibility)
@@ -15,6 +16,9 @@ export const appRouter = router({
         text: `hello ${input?.name ?? 'world'}`,
       };
     }),
+
+  // Authentication routes
+  auth: authRouter,
 
   // Job board routes
   jobs: jobRouter,
