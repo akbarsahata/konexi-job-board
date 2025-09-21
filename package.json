@@ -5,7 +5,12 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint --cache src",
-    "start": "next start"
+    "start": "next start",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit introspect",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.80.3",
@@ -13,15 +18,20 @@
     "@trpc/next": "npm:@trpc/next",
     "@trpc/react-query": "npm:@trpc/react-query",
     "@trpc/server": "npm:@trpc/server",
+    "drizzle-orm": "^0.44.5",
     "next": "^15.3.1",
+    "pg": "^8.16.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "zod": "^3.25.51"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
+    "@types/pg": "^8.15.5",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
+    "dotenv": "^17.2.2",
+    "drizzle-kit": "^0.31.4",
     "eslint": "^9.26.0",
     "typescript": "^5.9.2"
   },

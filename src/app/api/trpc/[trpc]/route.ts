@@ -1,4 +1,4 @@
-/**
+                                                                                                                /**
  * This is the API-handler of your app that contains all your API routes.
  * On a bigger app, you will probably want to split this file up into multiple files.
  */
@@ -34,16 +34,16 @@ const appRouter = router({
 export type AppRouter = typeof appRouter;
 
 // We're using the edge-runtime
-export const config = {
-  runtime: 'edge',
-};
+export const runtime = 'edge';
 
-// export API handler
-export default async function handler(req: NextRequest) {
+// App Router API handler
+const handler = (req: NextRequest) => {
   return fetchRequestHandler({
     endpoint: '/api/trpc',
     router: appRouter,
     req,
     createContext: () => ({}),
   });
-}
+};
+
+export { handler as GET, handler as POST };

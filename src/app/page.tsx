@@ -1,9 +1,11 @@
+'use client';
+
 /**
- * This is a Next.js page.
+ * This is a Next.js App Router page.
  */
 import { trpc } from '../utils/trpc';
 
-export default function IndexPage() {
+export default function HomePage() {
   // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
   const result = trpc.greeting.useQuery({ name: 'client' });
 
