@@ -41,7 +41,7 @@ export default function DashboardPage() {
   });
 
   const handleDeleteJob = (jobId: string) => {
-    if (window.confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+    if (typeof window !== 'undefined' && window.confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
       deleteJobMutation.mutate({ id: jobId });
     }
   };
