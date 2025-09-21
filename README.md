@@ -173,8 +173,29 @@ pnpm dev          # Start development server
 pnpm build        # Build for production
 pnpm start        # Start production server
 pnpm lint         # Run ESLint
+pnpm test         # Run test suite
+pnpm test:watch   # Run tests in watch mode
 pnpm type-check   # Run TypeScript checks
 ```
+
+### Testing
+The application includes a comprehensive test suite built with **Vitest**:
+
+- **Unit Tests** - All database query functions are thoroughly tested
+- **Mock Database** - Tests run with mocked database connections (no real DB needed)
+- **Coverage** - 27 test cases covering all CRUD operations and edge cases
+- **Type Safety** - Tests validate TypeScript interfaces and error handling
+
+To run tests:
+```bash
+pnpm test         # Single run
+pnpm test:watch   # Watch mode for development
+```
+
+Test files are located in `src/test/` and include:
+- `jobs.test.ts` - Comprehensive tests for all job query functions
+- `setup.ts` - Test environment configuration
+- `test-utils.ts` - Mock database utilities and fixtures
 
 ### Key Files
 - `src/lib/schema.ts` - Database schema definitions
