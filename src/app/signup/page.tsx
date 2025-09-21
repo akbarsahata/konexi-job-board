@@ -1,26 +1,23 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Eye, EyeOff, Mail, Lock, UserPlus, CheckCircle } from 'lucide-react';
-import { trpc } from '../../utils/trpc';
+import { CheckCircle, Eye, EyeOff, Lock, Mail, UserPlus } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { trpc } from "../../utils/trpc";
 
 export default function SignupPage() {
-  const router = useRouter();
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const signUpMutation = trpc.auth.signUp.useMutation({
     onSuccess: () => {
       setSuccess(true);
-      setError('');
+      setError("");
     },
     onError: (error) => {
       setError(error.message);
@@ -30,21 +27,21 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setSuccess(false);
-    
+
     if (!email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError("Password must be at least 6 characters");
       return;
     }
 
@@ -66,9 +63,10 @@ export default function SignupPage() {
               We've sent you a confirmation link at <strong>{email}</strong>
             </p>
             <p className="text-sm text-gray-500 mb-6">
-              Click the link in the email to verify your account and complete the signup process.
+              Click the link in the email to verify your account and complete
+              the signup process.
             </p>
-            <Link 
+            <Link
               href="/login"
               className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-blue-700 transition-all duration-200"
             >
@@ -85,15 +83,21 @@ export default function SignupPage() {
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
-          <Link href="/" className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <Link
+            href="/"
+            className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          >
             JobBoard
           </Link>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">
             Create your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Or{' '}
-            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+            Or{" "}
+            <Link
+              href="/login"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
               sign in to your existing account
             </Link>
           </p>
@@ -104,7 +108,10 @@ export default function SignupPage() {
           <div className="space-y-4">
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Email address
               </label>
               <div className="relative">
@@ -127,14 +134,17 @@ export default function SignupPage() {
 
             {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
                 <input
                   id="password"
                   name="password"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={password}
@@ -161,14 +171,17 @@ export default function SignupPage() {
 
             {/* Confirm Password */}
             <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Confirm Password
               </label>
               <div className="relative">
                 <input
                   id="confirm-password"
                   name="confirm-password"
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   autoComplete="new-password"
                   required
                   value={confirmPassword}
@@ -212,15 +225,17 @@ export default function SignupPage() {
             ) : (
               <UserPlus className="h-5 w-5" />
             )}
-            {signUpMutation.isPending ? 'Creating account...' : 'Create account'}
+            {signUpMutation.isPending
+              ? "Creating account..."
+              : "Create account"}
           </button>
 
           <p className="text-xs text-gray-500 text-center">
-            By creating an account, you agree to our{' '}
+            By creating an account, you agree to our{" "}
             <Link href="/terms" className="text-blue-600 hover:text-blue-500">
               Terms of Service
-            </Link>{' '}
-            and{' '}
+            </Link>{" "}
+            and{" "}
             <Link href="/privacy" className="text-blue-600 hover:text-blue-500">
               Privacy Policy
             </Link>
