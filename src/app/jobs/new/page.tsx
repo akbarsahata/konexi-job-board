@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save, Briefcase, Building2, MapPin, FileText, Tag } from 'lucide-react';
@@ -9,7 +9,14 @@ import { useAuth } from '../../../components/AuthProvider';
 
 export default function NewJobPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
   
   const [formData, setFormData] = useState({
     title: '',
@@ -74,8 +81,20 @@ export default function NewJobPage() {
     });
   };
 
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render anything if user is not authenticated (will redirect via useEffect)
   if (!user) {
-    router.push('/login');
     return null;
   }
 
