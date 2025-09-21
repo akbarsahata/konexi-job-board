@@ -1,38 +1,26 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
 /**
- * This is a Next.js App Router page.
+ * Home page - redirects to jobs listing
  */
-import { trpc } from '../utils/trpc';
-
 export default function HomePage() {
-  // 💡 Tip: CMD+Click (or CTRL+Click) on `greeting` to go to the server definition
-  const result = trpc.greeting.useQuery({ name: 'client' });
+  const router = useRouter();
 
-  if (!result.data) {
-    return (
-      <div style={styles}>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    // Redirect to jobs page immediately
+    router.replace('/jobs');
+  }, [router]);
+
+  // Show a brief loading state while redirecting
   return (
-    <div style={styles}>
-      {/**
-       * The type is defined and can be autocompleted
-       * 💡 Tip: Hover over `data` to see the result type
-       * 💡 Tip: CMD+Click (or CTRL+Click) on `text` to go to the server definition
-       * 💡 Tip: Secondary click on `text` and "Rename Symbol" to rename it both on the client & server
-       */}
-      <h1>{result.data.text}</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-gray-600">Redirecting to jobs...</p>
+      </div>
     </div>
   );
 }
-
-const styles = {
-  width: '100vw',
-  height: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
