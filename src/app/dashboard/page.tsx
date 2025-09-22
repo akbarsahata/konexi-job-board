@@ -1,29 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import {
-  Plus,
   Briefcase,
-  Users,
-  TrendingUp,
-  Edit,
-  Trash2,
-  Eye,
-  Calendar,
-  MapPin,
   Building2,
+  Calendar,
+  Edit,
+  Eye,
+  MapPin,
   MoreVertical,
-  LogOut,
-  User,
+  Plus,
+  Trash2,
+  TrendingUp,
+  Users,
 } from 'lucide-react';
-import { trpc } from '../../utils/trpc';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { AppHeader } from '~/components/AppHeader';
 import { useAuth } from '../../components/AuthProvider';
+import { trpc } from '../../utils/trpc';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { user, signOut, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   // Redirect to login if not authenticated
@@ -104,48 +103,12 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white/90 backdrop-blur-sm shadow-sm border-b border-gray-100 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div>
-              <Link
-                href="/"
-                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-              >
-                JobBoard
-              </Link>
-              <p className="text-gray-600 mt-1">Dashboard</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <Link
-                href="/jobs/new"
-                className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium shadow-sm hover:shadow-md"
-              >
-                <Plus className="w-4 h-4" />
-                Post a Job
-              </Link>
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
-              >
-                <Briefcase className="w-4 h-4" />
-                Browse Jobs
-              </Link>
-              <div className="flex items-center gap-2 text-gray-600 px-3 py-2.5">
-                <User className="w-4 h-4" />
-                <span className="text-sm">{user.email}</span>
-              </div>
-              <button
-                onClick={signOut}
-                className="inline-flex items-center gap-2 text-gray-600 hover:text-red-600 transition-colors px-3 py-2.5 rounded-lg hover:bg-gray-50"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <AppHeader
+        title="JobBoard"
+        subtitle="Dashboard"
+        showDashboard={false}
+        showBrowseJobs={true}
+      />
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
