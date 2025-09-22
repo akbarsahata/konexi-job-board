@@ -1,6 +1,8 @@
 # Mini Job Board Application
 
-[![Test Suite](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml/badge.svg)](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml)
+[![Queries Unit Tests](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml/badge.svg)](https://github.com/akbarsahata/konexi-job-board/actions/workflows/test.yml)
+
+[![JobBoard E2E Tests](https://github.com/akbarsahata/konexi-job-board/actions/workflows/e2e.yml/badge.svg)](https://github.com/akbarsahata/konexi-job-board/actions/workflows/e2e.yml)
 
 A full-stack job board web application built with Next.js, Supabase, and tRPC. This application allows companies to post job openings and enables users to browse and apply for positions.
 
