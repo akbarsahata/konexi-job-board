@@ -217,25 +217,52 @@ The project enforces consistent code style and quality through automated tools:
 
 ### Testing
 
-The application includes a comprehensive test suite built with **Vitest**:
+The application includes a comprehensive test suite with both **unit** and **end-to-end (E2E)** testing:
 
-- **Unit Tests** - All database query functions are thoroughly tested
+#### Unit Tests (Vitest)
+
+- **Database Testing** - All database query functions are thoroughly tested
 - **Mock Database** - Tests run with mocked database connections (no real DB needed)
 - **Coverage** - 27 test cases covering all CRUD operations and edge cases
 - **Type Safety** - Tests validate TypeScript interfaces and error handling
 
-To run tests:
-
 ```bash
-pnpm test         # Single run
-pnpm test:watch   # Watch mode for development
+pnpm test         # Run unit tests
+pnpm test:watch   # Run unit tests in watch mode
 ```
 
-Test files are located in `src/test/` and include:
+Unit test files are located in `src/test/` and include:
 
 - `jobs.test.ts` - Comprehensive tests for all job query functions
 - `setup.ts` - Test environment configuration
 - `test-utils.ts` - Mock database utilities and fixtures
+
+#### E2E Tests (Playwright)
+
+- **Full User Journeys** - Tests critical user flows across the application
+- **Browser Testing** - Automated testing in real browser environments
+- **Database Isolation** - CI uses Docker PostgreSQL for isolated testing
+- **Page Coverage** - Tests for home page (/), login (/login), and signup (/signup)
+
+```bash
+pnpm run test:e2e         # Run E2E tests
+pnpm run test:e2e:headed  # Run with browser UI visible
+pnpm run test:e2e:ui      # Run with Playwright UI mode
+pnpm run test:e2e:ci      # Run with CI configuration
+```
+
+E2E test files are located in `e2e/` and include:
+
+- `home.spec.ts` - Tests homepage functionality and navigation
+- `login.spec.ts` - Tests login page forms and validation
+- `signup.spec.ts` - Tests registration flow and form validation
+- `fixtures/index.ts` - Shared test utilities and database helpers
+
+#### Test Architecture
+
+- **Separation of Concerns** - Unit tests focus on business logic, E2E tests focus on user experience
+- **Fast Feedback** - Unit tests run quickly in development, E2E tests validate complete workflows
+- **CI Integration** - Both test suites run automatically on push/PR with Docker database isolation
 
 ### Continuous Integration
 
