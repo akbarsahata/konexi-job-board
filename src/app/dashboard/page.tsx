@@ -13,12 +13,19 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+
+export const metadata = {
+  title: 'Dashboard - JobBoard',
+  description:
+    'Manage your job postings and track applications from your dashboard.',
+};
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { AppHeader } from '~/components/AppHeader';
 import { useAuth } from '../../components/AuthProvider';
 import { trpc } from '../../utils/trpc';
+import { toast } from 'sonner';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -42,10 +49,12 @@ export default function DashboardPage() {
 
   const deleteJobMutation = trpc.jobs.delete.useMutation({
     onSuccess: () => {
+      toast.success('Job deleted successfully!');
       refetch();
       setActiveDropdown(null);
     },
     onError: error => {
+      toast.error('Error deleting job. Please try again.');
       console.error('Error deleting job:', error);
     },
   });

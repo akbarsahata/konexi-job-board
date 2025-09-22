@@ -13,7 +13,13 @@ import {
   Tag,
 } from 'lucide-react';
 import { trpc } from '../../../../utils/trpc';
+
+export const metadata = {
+  title: 'Edit Job - JobBoard',
+  description: 'Edit and update your job posting details.',
+};
 import { useAuth } from '../../../../components/AuthProvider';
+import { toast } from 'sonner';
 
 export default function EditJobPage() {
   const params = useParams();
@@ -40,6 +46,7 @@ export default function EditJobPage() {
 
   const updateJobMutation = trpc.jobs.update.useMutation({
     onSuccess: () => {
+      toast.success('Job updated successfully!');
       router.push(`/jobs/${jobId}`);
     },
     onError: error => {

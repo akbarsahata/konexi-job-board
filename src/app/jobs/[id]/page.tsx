@@ -13,8 +13,14 @@ import {
   Trash2,
   Briefcase,
 } from 'lucide-react';
+
+export const metadata = {
+  title: 'Job Details - JobBoard',
+  description: 'View detailed information about this job opportunity.',
+};
 import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
+import { toast } from 'sonner';
 
 export default function JobDetailPage() {
   const params = useParams();
@@ -32,7 +38,12 @@ export default function JobDetailPage() {
 
   const deleteJobMutation = trpc.jobs.delete.useMutation({
     onSuccess: () => {
+      toast.success('Job deleted successfully!');
       router.push('/dashboard');
+    },
+    onError: error => {
+      toast.error('Error deleting job. Please try again.');
+      console.error('Error deleting job:', error);
     },
   });
 

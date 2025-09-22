@@ -6,6 +6,13 @@ import { useRouter } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import { useAuth } from '../../components/AuthProvider';
+import { toast } from 'sonner';
+
+export const metadata = {
+  title: 'Login - JobBoard',
+  description:
+    'Sign in to your JobBoard account to manage your job postings and applications.',
+};
 
 function LoginForm() {
   const router = useRouter();
@@ -18,8 +25,8 @@ function LoginForm() {
 
   const signInMutation = trpc.auth.signIn.useMutation({
     onSuccess: async () => {
+      toast.success('Signed in successfully!');
       await refreshSession();
-      await new Promise(resolve => setTimeout(resolve, 100));
       router.push('/');
     },
     onError: error => {

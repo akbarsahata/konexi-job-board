@@ -3,7 +3,14 @@
 import { CheckCircle, Eye, EyeOff, Lock, Mail, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { trpc } from '../../utils/trpc';
+
+export const metadata = {
+  title: 'Sign Up - JobBoard',
+  description:
+    'Create your JobBoard account to start posting jobs and finding great candidates.',
+};
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -16,6 +23,7 @@ export default function SignupPage() {
 
   const signUpMutation = trpc.auth.signUp.useMutation({
     onSuccess: () => {
+      toast.success('Account created! Please check your email to verify.');
       setSuccess(true);
       setError('');
     },
