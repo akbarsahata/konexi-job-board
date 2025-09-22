@@ -1,0 +1,111 @@
+name: JobBoard E2E Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    container: node:20-bookworm-slim
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: jobboard_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Install system dependencies
+        run: |
+          apt-get update
+          apt-get install -y sudo ca-certificates curl
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run database migrations
+        run: |
+          pnpm run db:migrate
+
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/jobboard_test
+
+      - name: Build application
+        run: pnpm run build
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/jobboard_test
+          NEXTAUTH_SECRET: test-secret-for-ci
+          NEXTAUTH_URL: http://localhost:3000
+
+      - name: Start application
+        run: |
+          pnpm run start &
+          sleep 10
+          # Wait for app to be ready
+          curl --retry 30 --retry-delay 1 --retry-connrefused http://localhost:3000 || exit 1
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/jobboard_test
+          NEXTAUTH_SECRET: test-secret-for-ci
+          NEXTAUTH_URL: http://localhost:3000
+          PORT: 3000
+
+      - name: Run E2E tests
+        run: npx playwright test --config=playwright.ci.config.ts
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@postgres:5432/jobboard_test
+          CI: true
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-videos
+          path: test-results/
+          retention-days: 30
