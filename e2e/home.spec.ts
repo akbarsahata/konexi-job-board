@@ -29,7 +29,7 @@ test.describe('Home Page', () => {
 
     // Should either show jobs or empty state
     const jobsContainer = page.locator('div[class*="grid"]').nth(1);
-    const emptyState = page.locator('text=No jobs found');
+    const emptyState = page.locator('text=/No jobs found/i');
 
     // One of these should be visible
     const hasJobs = await jobsContainer.isVisible();
