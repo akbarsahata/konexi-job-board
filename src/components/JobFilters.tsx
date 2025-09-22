@@ -63,7 +63,6 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Search */}
         <div>
           <label
             htmlFor="search"
@@ -86,7 +85,6 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
           </div>
         </div>
 
-        {/* Location */}
         <div>
           <label
             htmlFor="location"
@@ -109,7 +107,6 @@ export function JobFilters({ onFiltersChange }: JobFiltersProps) {
           </div>
         </div>
 
-        {/* Job Type */}
         <div>
           <label
             htmlFor="type"

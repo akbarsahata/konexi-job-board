@@ -32,7 +32,6 @@ export function JobCard({ job }: JobCardProps) {
 
   return (
     <div className="group bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md hover:border-gray-200 transition-all duration-300 hover:-translate-y-1">
-      {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1 min-w-0">
           <Link href={`/jobs/${job.id}`} className="block">
@@ -52,7 +51,6 @@ export function JobCard({ job }: JobCardProps) {
         </span>
       </div>
 
-      {/* Metadata */}
       <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
         <div className="flex items-center gap-1.5">
           <MapPin className="w-4 h-4" />
@@ -64,14 +62,12 @@ export function JobCard({ job }: JobCardProps) {
         </div>
       </div>
 
-      {/* Description */}
       <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
         {job.description.length > 120
           ? `${job.description.substring(0, 120)}...`
           : job.description}
       </p>
 
-      {/* Footer */}
       <div className="flex justify-between items-center pt-4 border-t border-gray-50">
         <Link
           href={`/jobs/${job.id}`}

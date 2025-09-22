@@ -86,7 +86,6 @@ export default function JobDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-6">
           <Link
             href="/"
@@ -97,9 +96,7 @@ export default function JobDetailPage() {
           </Link>
         </div>
 
-        {/* Job Details Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          {/* Header Section */}
           <div className="px-6 py-6 border-b border-gray-200">
             <div className="flex justify-between items-start">
               <div className="flex-1">
@@ -123,7 +120,6 @@ export default function JobDetailPage() {
                   </div>
                 </div>
 
-                {/* Job Type Badge */}
                 <div className="flex items-center gap-2 text-lg font-semibold text-blue-600 mb-4">
                   <Briefcase className="h-5 w-5" />
                   <span className="capitalize">
@@ -132,7 +128,6 @@ export default function JobDetailPage() {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex items-center gap-3">
                 {isOwner ? (
                   <div className="flex gap-2">
@@ -160,12 +155,9 @@ export default function JobDetailPage() {
             </div>
           </div>
 
-          {/* Content Section */}
           <div className="px-6 py-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Job Description */}
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">
                     Job Description
@@ -178,9 +170,7 @@ export default function JobDetailPage() {
                 </div>
               </div>
 
-              {/* Sidebar */}
               <div className="space-y-6">
-                {/* Job Details */}
                 <div className="bg-gray-50 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Job Details
@@ -222,7 +212,6 @@ export default function JobDetailPage() {
                   </div>
                 </div>
 
-                {/* Company Info */}
                 <div className="bg-gray-50 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     About Company
@@ -240,7 +229,6 @@ export default function JobDetailPage() {
                   </div>
                 </div>
 
-                {/* Application Notice for non-owners */}
                 {!isOwner && (
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                     <h3 className="text-lg font-semibold text-blue-900 mb-2">
@@ -258,7 +246,6 @@ export default function JobDetailPage() {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-xl p-6 max-w-md w-full">

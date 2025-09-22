@@ -19,16 +19,13 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
       <AppHeader
         title="JobBoard"
         subtitle="Find your next opportunity"
         showDashboard={true}
       />
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Title */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Browse Jobs</h1>
           <p className="text-lg text-gray-600">
@@ -36,10 +33,8 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Filters */}
         <JobFilters onFiltersChange={setFilters} />
 
-        {/* Results Summary */}
         {!isLoading && jobs && (
           <div className="mb-6">
             <p className="text-gray-600 text-lg">
@@ -69,7 +64,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Error State */}
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-xl p-6">
             <div className="flex items-start">
@@ -91,7 +85,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Jobs Grid */}
         {!isLoading && !error && jobs && (
           <>
             {jobs.length > 0 ? (

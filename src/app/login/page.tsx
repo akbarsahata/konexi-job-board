@@ -18,9 +18,7 @@ function LoginForm() {
 
   const signInMutation = trpc.auth.signIn.useMutation({
     onSuccess: async () => {
-      // Refresh the auth session to update the context immediately
       await refreshSession();
-      // Wait a moment for the state to propagate
       await new Promise(resolve => setTimeout(resolve, 100));
       router.push('/');
     },
@@ -44,7 +42,6 @@ function LoginForm() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Header */}
         <div className="text-center">
           <Link
             href="/"
@@ -66,10 +63,8 @@ function LoginForm() {
           </p>
         </div>
 
-        {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -95,7 +90,6 @@ function LoginForm() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -133,14 +127,12 @@ function LoginForm() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={signInMutation.isPending}

@@ -1,6 +1,6 @@
-import { eq, and, like, or } from 'drizzle-orm';
-import { jobs, type Job, type NewJob } from '../lib/schema';
+import { and, eq, ilike, or } from 'drizzle-orm';
 import type { Db } from '../lib/db';
+import { jobs, type Job, type NewJob } from '../lib/schema';
 
 export async function createJob(args: { db: Db; job: NewJob }): Promise<Job> {
   const { db, job } = args;
@@ -25,7 +25,7 @@ export async function getAllJobs(args: {
   const conditions = [];
 
   if (filters.location) {
-    conditions.push(like(jobs.location, `%${filters.location}%`));
+    conditions.push(ilike(jobs.location, `%${filters.location}%`));
   }
 
   if (filters.type) {
@@ -35,9 +35,9 @@ export async function getAllJobs(args: {
   if (filters.search) {
     conditions.push(
       or(
-        like(jobs.title, `%${filters.search}%`),
-        like(jobs.company, `%${filters.search}%`),
-        like(jobs.description, `%${filters.search}%`)
+        ilike(jobs.title, `%${filters.search}%`),
+        ilike(jobs.company, `%${filters.search}%`),
+        ilike(jobs.description, `%${filters.search}%`)
       )
     );
   }

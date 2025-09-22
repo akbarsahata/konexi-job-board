@@ -79,7 +79,7 @@ export const mockDrizzleORM = () => {
   vi.doMock('drizzle-orm', () => ({
     eq: vi.fn((field, value) => ({ type: 'eq', field, value })),
     and: vi.fn((...conditions) => ({ type: 'and', conditions })),
-    like: vi.fn((field, pattern) => ({ type: 'like', field, pattern })),
+    ilike: vi.fn((field, pattern) => ({ type: 'ilike', field, pattern })),
     or: vi.fn((...conditions) => ({ type: 'or', conditions })),
   }));
 };

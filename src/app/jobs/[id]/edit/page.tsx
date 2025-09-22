@@ -48,7 +48,6 @@ export default function EditJobPage() {
     },
   });
 
-  // Initialize form data when job data is loaded
   useEffect(() => {
     if (job && !isInitialized) {
       setFormData({
@@ -62,12 +61,10 @@ export default function EditJobPage() {
     }
   }, [job, isInitialized]);
 
-  // Check if user owns this job
   const isOwner = user?.id === job?.userId;
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
@@ -165,7 +162,6 @@ export default function EditJobPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
           <Link
             href={`/jobs/${jobId}`}
@@ -180,17 +176,14 @@ export default function EditJobPage() {
           </p>
         </div>
 
-        {/* Form Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* General Error */}
             {errors.general && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                 <p className="text-sm text-red-600">{errors.general}</p>
               </div>
             )}
 
-            {/* Job Title */}
             <div>
               <label
                 htmlFor="title"
@@ -220,7 +213,6 @@ export default function EditJobPage() {
               )}
             </div>
 
-            {/* Company */}
             <div>
               <label
                 htmlFor="company"
@@ -250,7 +242,6 @@ export default function EditJobPage() {
               )}
             </div>
 
-            {/* Location */}
             <div>
               <label
                 htmlFor="location"
@@ -280,7 +271,6 @@ export default function EditJobPage() {
               )}
             </div>
 
-            {/* Job Type */}
             <div>
               <label
                 htmlFor="type"
@@ -311,7 +301,6 @@ export default function EditJobPage() {
               )}
             </div>
 
-            {/* Description */}
             <div>
               <label
                 htmlFor="description"
@@ -345,7 +334,6 @@ export default function EditJobPage() {
               )}
             </div>
 
-            {/* Form Actions */}
             <div className="flex items-center justify-between pt-6 border-t border-gray-200">
               <Link
                 href={`/jobs/${jobId}`}

@@ -81,7 +81,6 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Header */}
         <div className="text-center">
           <Link
             href="/"
@@ -103,10 +102,8 @@ export default function SignupPage() {
           </p>
         </div>
 
-        {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {/* Email */}
             <div>
               <label
                 htmlFor="email"
@@ -132,7 +129,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label
                 htmlFor="password"
@@ -169,7 +165,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* Confirm Password */}
             <div>
               <label
                 htmlFor="confirm-password"
@@ -207,14 +202,12 @@ export default function SignupPage() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <p className="text-sm text-red-600">{error}</p>
             </div>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={signUpMutation.isPending}

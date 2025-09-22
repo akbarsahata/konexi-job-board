@@ -14,12 +14,12 @@ import {
 } from 'lucide-react';
 import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
+import { toast } from 'sonner';
 
 export default function NewJobPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
 
-  // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
@@ -38,6 +38,7 @@ export default function NewJobPage() {
 
   const createJobMutation = trpc.jobs.create.useMutation({
     onSuccess: () => {
+      toast.success('Job created successfully!');
       router.push('/dashboard');
     },
     onError: error => {
@@ -48,7 +49,6 @@ export default function NewJobPage() {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
@@ -65,7 +65,6 @@ export default function NewJobPage() {
     if (!formData.location.trim()) newErrors.location = 'Location is required';
     if (!formData.type) newErrors.type = 'Job type is required';
 
-    // Validate minimum lengths
     if (formData.title.length > 0 && formData.title.length < 3) {
       newErrors.title = 'Job title must be at least 3 characters';
     }
@@ -91,7 +90,6 @@ export default function NewJobPage() {
     });
   };
 
-  // Show loading while checking authentication
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center">
@@ -103,14 +101,12 @@ export default function NewJobPage() {
     );
   }
 
-  // Don't render anything if user is not authenticated (will redirect via useEffect)
   if (!user) {
     return null;
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      {/* Header */}
       <header className="bg-white/90 backdrop-blur-sm shadow-sm border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-4 py-6">
@@ -133,7 +129,6 @@ export default function NewJobPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100">
@@ -141,14 +136,12 @@ export default function NewJobPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* General Error */}
             {errors.general && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                 <p className="text-sm text-red-600">{errors.general}</p>
               </div>
             )}
 
-            {/* Job Title */}
             <div>
               <label
                 htmlFor="title"
@@ -176,7 +169,6 @@ export default function NewJobPage() {
               )}
             </div>
 
-            {/* Company Name */}
             <div>
               <label
                 htmlFor="company"
@@ -204,7 +196,6 @@ export default function NewJobPage() {
               )}
             </div>
 
-            {/* Location */}
             <div>
               <label
                 htmlFor="location"
@@ -232,7 +223,6 @@ export default function NewJobPage() {
               )}
             </div>
 
-            {/* Job Type */}
             <div>
               <label
                 htmlFor="type"
@@ -263,7 +253,6 @@ export default function NewJobPage() {
               )}
             </div>
 
-            {/* Job Description */}
             <div>
               <label
                 htmlFor="description"
@@ -300,7 +289,6 @@ export default function NewJobPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="flex justify-end gap-4 pt-6 border-t border-gray-100">
               <Link
                 href="/dashboard"
