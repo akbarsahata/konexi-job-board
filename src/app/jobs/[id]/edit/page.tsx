@@ -13,11 +13,6 @@ import {
   Tag,
 } from 'lucide-react';
 import { trpc } from '../../../../utils/trpc';
-
-export const metadata = {
-  title: 'Edit Job - JobBoard',
-  description: 'Edit and update your job posting details.',
-};
 import { useAuth } from '../../../../components/AuthProvider';
 import { toast } from 'sonner';
 

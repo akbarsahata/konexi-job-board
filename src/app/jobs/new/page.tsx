@@ -16,12 +16,6 @@ import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
 import { toast } from 'sonner';
 
-export const metadata = {
-  title: 'Post a New Job - JobBoard',
-  description:
-    'Create and publish a new job posting to attract the best candidates.',
-};
-
 export default function NewJobPage() {
   const router = useRouter();
   const { user, loading } = useAuth();

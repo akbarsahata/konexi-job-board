@@ -16,6 +16,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <title>Konexi JobBoard</title>
+      </head>
       <body className="bg-gray-50 min-h-screen">
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>

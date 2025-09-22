@@ -8,12 +8,6 @@ import { JobCard } from '../components/JobCard';
 import { JobFilters } from '../components/JobFilters';
 import { trpc } from '../utils/trpc';
 
-export const metadata = {
-  title: 'JobBoard - Find Your Next Opportunity',
-  description:
-    'Discover amazing job opportunities from top companies. Browse and apply to jobs that match your skills and interests.',
-};
-
 export default function HomePage() {
   const [filters, setFilters] = useState<{
     location?: string;
@@ -51,7 +45,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Loading State */}
         {isLoading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (

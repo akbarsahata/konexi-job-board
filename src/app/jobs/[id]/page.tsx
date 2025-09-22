@@ -13,11 +13,6 @@ import {
   Trash2,
   Briefcase,
 } from 'lucide-react';
-
-export const metadata = {
-  title: 'Job Details - JobBoard',
-  description: 'View detailed information about this job opportunity.',
-};
 import { trpc } from '../../../utils/trpc';
 import { useAuth } from '../../../components/AuthProvider';
 import { toast } from 'sonner';

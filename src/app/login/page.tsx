@@ -8,12 +8,6 @@ import { trpc } from '../../utils/trpc';
 import { useAuth } from '../../components/AuthProvider';
 import { toast } from 'sonner';
 
-export const metadata = {
-  title: 'Login - JobBoard',
-  description:
-    'Sign in to your JobBoard account to manage your job postings and applications.',
-};
-
 function LoginForm() {
   const router = useRouter();
   const { refreshSession } = useAuth();

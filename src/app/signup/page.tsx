@@ -6,12 +6,6 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { trpc } from '../../utils/trpc';
 
-export const metadata = {
-  title: 'Sign Up - JobBoard',
-  description:
-    'Create your JobBoard account to start posting jobs and finding great candidates.',
-};
-
 export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

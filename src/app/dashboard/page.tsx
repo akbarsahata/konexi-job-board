@@ -13,12 +13,6 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-
-export const metadata = {
-  title: 'Dashboard - JobBoard',
-  description:
-    'Manage your job postings and track applications from your dashboard.',
-};
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
