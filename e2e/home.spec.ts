@@ -1,4 +1,4 @@
-import { test, expect } from './fixtures';
+import { expect, test } from './fixtures';
 
 test.describe('Home Page', () => {
   test('should load the home page successfully', async ({ page }) => {
@@ -33,7 +33,7 @@ test.describe('Home Page', () => {
 
     // One of these should be visible
     const hasJobs = await jobsContainer.isVisible();
-    const hasEmptyState = await emptyState.isVisible();
+    const hasEmptyState = (await emptyState?.isVisible()) || false;
 
     expect(hasJobs || hasEmptyState).toBeTruthy();
   });
